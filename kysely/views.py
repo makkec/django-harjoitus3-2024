@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render
 
 from .models import Kysymys
 
@@ -12,8 +12,9 @@ def indeksi(request):
     return render(request, "kysely/indeksi.html", context)
 
 
-def näytä(request, question_id):
-    return HttpResponse(f"Katsot juuri kysymystä {question_id}")
+def näytä(request, kysymys_id):
+    kysym = get_object_or_404(Kysymys, pk=kysymys_id)
+    return render(request, "kysely/näytä.html", {"kysymys": kysym})
 
 
 def tulokset(request, question_id):
